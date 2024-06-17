@@ -5,12 +5,15 @@ const Pizza = require('./models/pizzaModel');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 var cookieParser = require('cookie-parser');
-
+const {isLoggedIn}=require('./middlewares.js');
 
 
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+//the below use cors is used to send cookies for the front end 
+//backend should know who is sending the request
+//so it will set the cookies for that url
 app.use(cors({ origin: ["http://localhost:5173"], credentials: true }));
 app.use(cookieParser());
 
@@ -36,7 +39,7 @@ async function main() {
 }
 
 
-app.get('/', (req, res) => {
+app.get('/',isLoggedIn, (req, res) => {
     res.send("Hello this is port 8080");
 });
 

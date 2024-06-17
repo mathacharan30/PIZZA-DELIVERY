@@ -1,23 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Pizza } from '../components/pizza';
 import { fetchPizzas } from '../slices/pizzaSlice';
-import {logoutUser } from "../slices/loginSLice";
-
+import {logoutUser } from "../slices/authSlice";
+import { useNavigate, Navigate } from "react-router-dom";
 export const Home = () => {
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
     useEffect(() => {
         dispatch(fetchPizzas());
     }, [])
     
-
+    const userstate = useSelector(state => state.authuser);
     const logoutHandler=()=>{
         dispatch(logoutUser());
+        // navigate('/');
+        //here re rendering of the state should take place 
+        // so that the states will be refreshed 
       }
 
     const state = useSelector(state => state.pizza);
-    console.log(state);
+    // console.log(state);
     if (state.isLoading) {
         return <h1>Loading...</h1>
     }

@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate, Navigate } from "react-router-dom";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from "../slices/loginSLice";
-
-
+import { loginUser } from "../slices/authSlice";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
@@ -16,11 +16,20 @@ export const Login = () => {
       username: username,
       password: password,
     }
-    // console.log(user);
     dispatch(loginUser(user));
   }
+  const authStatus = useSelector((state) => state.authUser);
+  useEffect(() => {
+    if (authStatus.success) {
+      toast.success('Login successful!');
+    } else if (authStatus.error) {
+      toast.error('Login failed!');
+    }
+  }, [authStatus]);
+  
 
-  const state = useSelector(state => state.loginuser);
+  // change this to auth slice
+  const state = useSelector(state => state.authUser);
   if (state.request) {
     return <h1>Just a second...</h1>
   }
@@ -30,6 +39,7 @@ export const Login = () => {
   if (state.success) {
     // return <div><h1>user logged in successfully</h1><button onClick={()=>logoutHandler()}>logout</button></div>
     return <Navigate to="/" />
+    // console.log(state.user.role);
   }
 
   return (

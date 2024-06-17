@@ -36,15 +36,20 @@ router.post('/login', async (req, res) => {
             });
             // console.log(token);
             // res.send("user logged in successfully");
-            res.send(token);
+            const user={
+                _id:dbuser._id,
+                name:dbuser.username,
+                role:dbuser.role,
+            }
+            res.send(user);
         } else {
             res.status(400).send("incorrect password");
         }
     } else {
         res.status(400).send("user not found");
     }
-
 })
+
 
 router.get('/logout',(req,res)=>{
     res.cookie("jwtToken", "", {

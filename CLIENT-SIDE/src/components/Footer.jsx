@@ -1,6 +1,8 @@
 import { Typography } from "@material-tailwind/react";
 import Logo from "../assets/food.png";
+import {useNavigate}from 'react-router-dom'
 export const Footer=()=> {
+  const navigate=useNavigate();
   return (
     <footer className="w-full bg-zinc-200 p-8 mt-20">
       <hr className="my-8 border-blue-gray-50" />
@@ -16,6 +18,7 @@ export const Footer=()=> {
               href="#"
               color="blue-gray"
               className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
+              onClick={()=>navigate('/about')}
             >
               About Us
             </Typography>
